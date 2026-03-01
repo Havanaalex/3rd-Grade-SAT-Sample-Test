@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3rd Grade SAT 10 Practice Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #e8f4fd;
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary: #f59e0b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --purple: #7c3aed;
+    --teal: #0d9488;
+    --pink: #ec4899;
+    --bg: #f0f7ff;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ===== SCREENS ===== */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ===== START SCREEN ===== */
+  #start-screen {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e40af 0%, #7c3aed 50%, #db2777 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+  }
+  #start-screen.active { display: flex; }
+
+  .star-field {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute; background: white; border-radius: 50%;
+    animation: twinkle 3s infinite alternate;
+  }
+
+  @keyframes twinkle { from { opacity: 0.2; } to { opacity: 0.9; } }
+
+  .start-card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(16px);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 24px;
+    padding: 3rem 2.5rem;
+    max-width: 560px;
+    width: 100%;
+    position: relative; z-index: 1;
+  }
+
+  .trophy { font-size: 5rem; margin-bottom: 1rem; animation: bounce 2s infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+  .start-card h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.4rem;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    margin-bottom: 0.5rem;
+  }
+  .start-card p {
+    color: rgba(255,255,255,0.85);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .subject-chips {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    justify-content: center; margin-bottom: 2rem;
+  }
+  .chip {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .btn-start {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: white;
+    border: none;
+    padding: 1rem 3rem;
+    border-radius: 999px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .btn-start:hover { transform: scale(1.06); }
+
+  /* ===== TEST SCREEN ===== */
+  #test-screen { min-height: 100vh; background: var(--bg); }
+  #test-screen.active { display: block; }
+
+  .test-header {
+    background: white;
+    border-bottom: 2px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 10;
+    gap: 1rem;
+  }
+
+  .test-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--primary);
+  }
+
+  .section-badge {
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: white;
+  }
+
+  .progress-bar-wrap {
+    flex: 1; max-width: 300px;
+    background: var(--border); border-radius: 999px; height: 10px;
+  }
+  .progress-bar-fill {
+    height: 100%; border-radius: 999px;
+    background: linear-gradient(90deg, var(--primary), var(--purple));
+    transition: width 0.5s ease;
+  }
+
+  .q-counter {
+    font-size: 0.9rem; font-weight: 700; color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .test-body { padding: 2rem; max-width: 760px; margin: 0 auto; }
+
+  .section-header {
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius);
+    color: white;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-header .icon { font-size: 2rem; }
+  .section-header h2 { font-family: 'Fredoka One', cursive; font-size: 1.4rem; }
+  .section-header p { font-size: 0.9rem; opacity: 0.85; }
+
+  .passage-box {
+    background: #fefce8;
+    border: 2px solid #fde68a;
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.9;
+    font-size: 1rem;
+  }
+  .passage-box strong { font-weight: 800; }
+
+  .question-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .question-card.answered { border-color: var(--success); }
+
+  .q-num {
+    font-size: 0.78rem; font-weight: 800; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 0.75rem;
+  }
+
+  .q-text {
+    font-size: 1.05rem; font-weight: 700; line-height: 1.5;
+    margin-bottom: 1.25rem;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .option {
+    display: flex; align-items: center; gap: 0.85rem;
+    padding: 0.85rem 1.1rem;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 0.98rem;
+    font-weight: 600;
+    user-select: none;
+  }
+  .option:hover { border-color: var(--primary); background: #eff6ff; }
+  .option.selected { border-color: var(--primary); background: #dbeafe; color: var(--primary-dark); }
+  .option.correct { border-color: var(--success); background: #d1fae5; color: #065f46; }
+  .option.wrong { border-color: var(--danger); background: #fee2e2; color: #991b1b; }
+  .option.reveal-correct { border-color: var(--success); background: #d1fae5; color: #065f46; }
+
+  .option-letter {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.85rem;
+    background: var(--border); color: var(--muted);
+    flex-shrink: 0; transition: all 0.15s;
+  }
+  .option.selected .option-letter { background: var(--primary); color: white; }
+  .option.correct .option-letter { background: var(--success); color: white; }
+  .option.wrong .option-letter { background: var(--danger); color: white; }
+
+  .fill-blank {
+    border: 2px solid var(--border); border-radius: 8px;
+    padding: 0.6rem 1rem; font-size: 1rem; font-family: 'Nunito', sans-serif;
+    font-weight: 600; width: 100%; max-width: 280px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .fill-blank:focus { border-color: var(--primary); }
+
+  .nav-btns {
+    display: flex; justify-content: space-between; gap: 1rem;
+    margin-top: 2rem; padding-bottom: 2rem;
+  }
+
+  .btn { 
+    padding: 0.85rem 2rem; border-radius: 999px; font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 1rem; cursor: pointer; border: none;
+    transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+  .btn-secondary { background: white; color: var(--primary); border: 2px solid var(--primary); }
+  .btn-secondary:hover { background: #eff6ff; }
+  .btn-success { background: var(--success); color: white; }
+  .btn-success:hover { background: #059669; transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+  /* ===== RESULTS SCREEN ===== */
+  #results-screen {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1e40af 0%, #7c3aed 50%, #db2777 100%);
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: flex-start; padding: 2rem;
+  }
+  #results-screen.active { display: flex; }
+
+  .results-card {
+    background: white; border-radius: 24px;
+    padding: 2.5rem; max-width: 680px; width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  .results-card h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem; text-align: center; margin-bottom: 0.5rem;
+  }
+
+  .score-circle {
+    width: 140px; height: 140px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--purple));
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: white; margin: 1.5rem auto;
+    box-shadow: 0 8px 24px rgba(37,99,235,0.4);
+  }
+  .score-pct { font-family: 'Fredoka One', cursive; font-size: 2.5rem; line-height: 1; }
+  .score-lbl { font-size: 0.85rem; font-weight: 700; opacity: 0.85; }
+
+  .grade { font-size: 1.1rem; font-weight: 700; text-align: center; color: var(--muted); margin-bottom: 1.5rem; }
+
+  .section-scores {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-score-item {
+    border-radius: 12px; padding: 0.85rem 1rem;
+    background: var(--bg);
+  }
+  .section-score-item .ss-label { font-size: 0.8rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .section-score-item .ss-val { font-size: 1.2rem; font-weight: 900; color: var(--text); }
+  .section-score-item .ss-bar { height: 6px; border-radius: 999px; background: var(--border); margin-top: 0.4rem; }
+  .section-score-item .ss-bar-fill { height: 100%; border-radius: 999px; }
+
+  .review-btn-wrap { text-align: center; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  .feedback-msg { 
+    background: var(--bg); border-radius: 12px; padding: 1rem 1.25rem;
+    text-align: center; font-weight: 700; color: var(--text);
+    margin-bottom: 1.5rem; font-size: 1.05rem;
+  }
+
+  /* ===== REVIEW SCREEN ===== */
+  #review-screen { min-height: 100vh; background: var(--bg); padding: 2rem; }
+  #review-screen.active { display: block; }
+
+  .review-header {
+    background: white; border-radius: var(--radius); padding: 1.5rem;
+    margin-bottom: 1.5rem; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .review-header h2 { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--primary); }
+
+  .review-q { 
+    background: white; border-radius: var(--radius); padding: 1.5rem;
+    margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .review-q .q-num { margin-bottom: 0.5rem; }
+  .review-q .q-text { margin-bottom: 1rem; }
+  .review-result { font-size: 0.9rem; font-weight: 700; margin-top: 0.75rem; padding: 0.5rem 0.85rem; border-radius: 8px; display: inline-block; }
+  .review-result.correct-r { background: #d1fae5; color: #065f46; }
+  .review-result.wrong-r { background: #fee2e2; color: #991b1b; }
+  .review-explanation { font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem; font-style: italic; }
+
+  /* Subject colors */
+  .c-reading { background: linear-gradient(135deg, #2563eb, #0d9488); }
+  .c-math { background: linear-gradient(135deg, #7c3aed, #2563eb); }
+  .c-lang { background: linear-gradient(135deg, #db2777, #7c3aed); }
+  .c-vocab { background: linear-gradient(135deg, #d97706, #db2777); }
+  .c-science { background: linear-gradient(135deg, #10b981, #2563eb); }
+  .c-social { background: linear-gradient(135deg, #f59e0b, #ef4444); }
+
+  .badge-reading { background: #2563eb; }
+  .badge-math { background: #7c3aed; }
+  .badge-lang { background: #db2777; }
+  .badge-vocab { background: #d97706; }
+  .badge-science { background: #10b981; }
+  .badge-social { background: #ef4444; }
+
+  .bar-reading { background: #2563eb; }
+  .bar-math { background: #7c3aed; }
+  .bar-lang { background: #db2777; }
+  .bar-vocab { background: #d97706; }
+  .bar-science { background: #10b981; }
+  .bar-social { background: #ef4444; }
+
+  @media (max-width: 600px) {
+    .test-header { flex-wrap: wrap; }
+    .section-scores { grid-template-columns: 1fr; }
+    .start-card h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- STAR FIELD -->
+<div class="star-field" id="stars"></div>
+
+<!-- ============ START SCREEN ============ -->
+<div id="start-screen" class="screen active">
+  <div class="start-card">
+    <div class="trophy">🏆</div>
+    <h1>3rd Grade SAT 10<br>Practice Test</h1>
+    <p>A full practice test covering all SAT 10 subject areas. Answer every question and see your score at the end!</p>
+    <div class="subject-chips">
+      <span class="chip">📖 Reading</span>
+      <span class="chip">🔤 Vocabulary</span>
+      <span class="chip">✏️ Language</span>
+      <span class="chip">🔢 Mathematics</span>
+      <span class="chip">🔬 Science</span>
+      <span class="chip">🌎 Social Studies</span>
+    </div>
+    <p style="color:rgba(255,255,255,0.7); font-size:0.9rem; margin-bottom:1.5rem;">48 questions &bull; All SAT 10 areas &bull; Instant feedback</p>
+    <button class="btn-start" onclick="startTest()">Let's Go! 🚀</button>
+  </div>
+</div>
+
+<!-- ============ TEST SCREEN ============ -->
+<div id="test-screen" class="screen">
+  <div class="test-header">
+    <div class="test-title">SAT 10 Practice</div>
+    <span class="section-badge" id="section-badge">Reading</span>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="q-counter" id="q-counter">Q 1 / 48</div>
+  </div>
+  <div class="test-body" id="test-body"></div>
+</div>
+
+<!-- ============ RESULTS SCREEN ============ -->
+<div id="results-screen" class="screen">
+  <div class="results-card">
+    <h1 id="results-emoji"></h1>
+    <div class="score-circle">
+      <div class="score-pct" id="score-pct">0%</div>
+      <div class="score-lbl">Score</div>
+    </div>
+    <div class="grade" id="grade-msg"></div>
+    <div class="feedback-msg" id="feedback-msg"></div>
+    <div class="section-scores" id="section-scores"></div>
+    <div class="review-btn-wrap">
+      <button class="btn btn-primary" onclick="showReview()">📋 Review Answers</button>
+      <button class="btn btn-secondary" onclick="restartTest()">🔄 Try Again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ REVIEW SCREEN ============ -->
+<div id="review-screen" class="screen">
+  <div style="max-width:760px; margin:0 auto;">
+    <div class="review-header">
+      <h2>📋 Answer Review</h2>
+      <p style="color:var(--muted); margin-top:0.25rem;">See what you got right and wrong</p>
+    </div>
+    <div id="review-body"></div>
+    <div style="text-align:center; padding: 1rem 0 2rem;">
+      <button class="btn btn-primary" onclick="showResults()">← Back to Results</button>
+      <button class="btn btn-secondary" onclick="restartTest()" style="margin-left:1rem;">🔄 Try Again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== QUESTION BANK =====================
+const sections = [
+  {
+    id: 'reading',
+    label: 'Reading Comprehension',
+    icon: '📖',
+    color: 'c-reading',
+    badge: 'badge-reading',
+    bar: 'bar-reading',
+    passage: `<strong>The Magic of Libraries</strong>
+
+Maria loved visiting her neighborhood library every Saturday. The building was old and made of red brick, with tall windows that let in golden light. Inside, row upon row of colorful books filled the shelves from floor to ceiling.
+
+One day, Maria found a book about oceans. She learned that the ocean covers more than 70% of Earth's surface and is home to millions of creatures, including the giant blue whale—the largest animal on Earth. She also discovered that scientists believe the ocean holds many secrets yet to be found.
+
+Maria checked out four books that day. On the walk home, she thought about how every book was like a door to a new world. She couldn't wait to start reading.`,
+    questions: [
+      { id: 'r1', q: 'Where did Maria go every Saturday?', options: ['A school', 'A library', 'A museum', 'A bookstore'], answer: 1, exp: 'The passage says Maria visited her neighborhood library every Saturday.' },
+      { id: 'r2', q: 'What is the main topic of the ocean book Maria found?', options: ['How to swim', 'Facts about the ocean', 'Library history', 'Blue whale stories'], answer: 1, exp: 'Maria read about oceans — including coverage, creatures, and discoveries.' },
+      { id: 'r3', q: 'What percentage of Earth\'s surface does the ocean cover?', options: ['50%', '60%', 'More than 70%', 'About 90%'], answer: 2, exp: 'The passage states the ocean covers more than 70% of Earth\'s surface.' },
+      { id: 'r4', q: 'What is the largest animal on Earth according to the passage?', options: ['Great white shark', 'Giant squid', 'Blue whale', 'Elephant'], answer: 2, exp: 'The passage says the blue whale is the largest animal on Earth.' },
+      { id: 'r5', q: 'How many books did Maria check out?', options: ['Two', 'Three', 'Four', 'Five'], answer: 2, exp: 'The passage states Maria checked out four books.' },
+      { id: 'r6', q: 'What does the author mean when saying each book is "like a door to a new world"?', options: ['Books have doors on their covers', 'Books can take you to imaginary places', 'Libraries are shaped like doors', 'Books are heavy to carry'], answer: 1, exp: 'This metaphor means books let you explore new ideas and places through reading.' },
+      { id: 'r7', q: 'Which word BEST describes how Maria feels about reading?', options: ['Bored', 'Nervous', 'Excited', 'Confused'], answer: 2, exp: 'Maria "couldn\'t wait to start reading," showing she was excited.' },
+      { id: 'r8', q: 'What does the word "discovered" mean in this passage?', options: ['Hid something away', 'Found out something new', 'Forgot information', 'Shared with a friend'], answer: 1, exp: '"Discovered" means she learned or found out something new.' },
+    ]
+  },
+  {
+    id: 'vocab',
+    label: 'Vocabulary',
+    icon: '🔤',
+    color: 'c-vocab',
+    badge: 'badge-vocab',
+    bar: 'bar-vocab',
+    questions: [
+      { id: 'v1', q: 'Which word means the OPPOSITE of "ancient"?', options: ['Old', 'Modern', 'Broken', 'Heavy'], answer: 1, exp: '"Modern" means new or recent, the opposite of ancient.' },
+      { id: 'v2', q: 'Which word means "to look at something carefully"?', options: ['Glance', 'Examine', 'Ignore', 'Forget'], answer: 1, exp: '"Examine" means to look at or study something carefully.' },
+      { id: 'v3', q: 'The word "enormous" means:', options: ['Very tiny', 'Very loud', 'Very large', 'Very fast'], answer: 2, exp: '"Enormous" means extremely large or huge.' },
+      { id: 'v4', q: 'Which word is a SYNONYM for "happy"?', options: ['Sad', 'Angry', 'Joyful', 'Tired'], answer: 2, exp: '"Joyful" and "happy" both mean feeling good and pleased.' },
+      { id: 'v5', q: '"The student was confused." Another word for confused is:', options: ['Puzzled', 'Angry', 'Excited', 'Brave'], answer: 0, exp: '"Puzzled" is a synonym for confused — both mean uncertain or mixed up.' },
+      { id: 'v6', q: 'What does the prefix "un-" mean in the word "unhappy"?', options: ['Very', 'Not', 'Again', 'Before'], answer: 1, exp: 'The prefix "un-" means NOT, so unhappy means NOT happy.' },
+      { id: 'v7', q: 'Which sentence uses the word "fair" correctly?', options: ['She ran fair down the street.', 'It is not fair to cut in line.', 'The cake was fair and round.', 'He fair the ball into the net.'], answer: 1, exp: '"Fair" means just or reasonable, correctly used in "It is not fair to cut in line."' },
+      { id: 'v8', q: 'The suffix "-ful" in "careful" means:', options: ['Without', 'Full of', 'Before', 'Again'], answer: 1, exp: 'The suffix "-ful" means full of. Careful = full of care.' },
+    ]
+  },
+  {
+    id: 'lang',
+    label: 'Language / Mechanics',
+    icon: '✏️',
+    color: 'c-lang',
+    badge: 'badge-lang',
+    bar: 'bar-lang',
+    questions: [
+      { id: 'l1', q: 'Which sentence has the CORRECT punctuation?', options: ['Where is my dog.', 'I love pizza?', 'Can you help me?', 'She ran fast!.'], answer: 2, exp: 'Questions end with a question mark. "Can you help me?" is correctly punctuated.' },
+      { id: 'l2', q: 'Which sentence is written correctly?', options: ['me and my friend went to the park.', 'My friend and I went to the park.', 'My friend and me went to the Park.', 'i and my friend went to the park.'], answer: 1, exp: 'Use "I" not "me" as a subject, and capitalize the first word of a sentence.' },
+      { id: 'l3', q: 'Choose the CORRECT plural of "child":',  options: ['Childs', 'Childes', 'Children', 'Childrens'], answer: 2, exp: '"Children" is the irregular plural form of child.' },
+      { id: 'l4', q: 'Which word is a NOUN in this sentence? "The happy dog ran fast."', options: ['Happy', 'Dog', 'Ran', 'Fast'], answer: 1, exp: '"Dog" is the noun — it names a person, place, or thing.' },
+      { id: 'l5', q: 'Which word is an ADJECTIVE? "She wore a bright red coat."', options: ['Wore', 'She', 'Bright', 'Coat'], answer: 2, exp: '"Bright" is an adjective because it describes the coat.' },
+      { id: 'l6', q: 'Which sentence uses commas correctly in a list?', options: ['I like cats dogs and birds.', 'I like cats, dogs, and birds.', 'I like, cats dogs, and birds.', 'I like cats, dogs and, birds.'], answer: 1, exp: 'Items in a list are separated by commas: cats, dogs, and birds.' },
+      { id: 'l7', q: 'Which word correctly completes the sentence? "Yesterday, she ___ to school early."', options: ['Walk', 'Walks', 'Walking', 'Walked'], answer: 3, exp: 'Past tense is needed because of "Yesterday." The correct form is "walked."' },
+      { id: 'l8', q: 'Which sentence is a COMPOUND sentence?', options: ['The dog barked.', 'She ran and jumped.', 'I like soccer, and she likes tennis.', 'Running fast is fun.'], answer: 2, exp: 'A compound sentence has two independent clauses joined by a conjunction.' },
+    ]
+  },
+  {
+    id: 'math',
+    label: 'Mathematics',
+    icon: '🔢',
+    color: 'c-math',
+    badge: 'badge-math',
+    bar: 'bar-math',
+    questions: [
+      { id: 'm1', q: 'What is 47 + 36?', options: ['73', '83', '73', '93'], answer: 1, exp: '47 + 36 = 83. Add the ones: 7+6=13, carry 1. Add tens: 4+3+1=8. Answer: 83.' },
+      { id: 'm2', q: 'What is 124 − 58?', options: ['66', '76', '56', '86'], answer: 0, exp: '124 − 58 = 66. Borrow from the tens to subtract 8 from 4.' },
+      { id: 'm3', q: 'Which number is EVEN?', options: ['37', '41', '52', '73'], answer: 2, exp: 'Even numbers end in 0, 2, 4, 6, or 8. 52 ends in 2, so it is even.' },
+      { id: 'm4', q: 'What is 6 × 7?', options: ['36', '42', '48', '54'], answer: 1, exp: '6 × 7 = 42. This is an important multiplication fact to memorize!' },
+      { id: 'm5', q: 'What fraction of the circle is shaded if 3 out of 4 equal parts are shaded?', options: ['1/4', '2/4', '3/4', '4/3'], answer: 2, exp: '3 shaded parts out of 4 total parts = 3/4.' },
+      { id: 'm6', q: 'Which number is in the HUNDREDS place in 3,756?', options: ['3', '5', '7', '6'], answer: 2, exp: 'In 3,756: 3=thousands, 7=hundreds, 5=tens, 6=ones. The hundreds digit is 7.' },
+      { id: 'm7', q: 'Sam has 24 stickers and shares them equally with 3 friends. How many does each person get?', options: ['6', '7', '8', '9'], answer: 2, exp: '24 ÷ 3 = 8. Each person gets 8 stickers.' },
+      { id: 'm8', q: 'Which shape has EXACTLY 4 equal sides and 4 right angles?', options: ['Triangle', 'Rectangle', 'Square', 'Circle'], answer: 2, exp: 'A square has 4 equal sides and 4 right angles.' },
+      { id: 'm9', q: 'A rectangle has a length of 8 cm and a width of 3 cm. What is its perimeter?', options: ['11 cm', '22 cm', '24 cm', '30 cm'], answer: 1, exp: 'Perimeter = 2×(l+w) = 2×(8+3) = 2×11 = 22 cm.' },
+      { id: 'm10', q: 'What time is shown if the hour hand points at 4 and the minute hand points at 6?', options: ['4:00', '4:30', '6:04', '4:06'], answer: 1, exp: 'The minute hand at 6 means 30 minutes. So the time is 4:30.' },
+      { id: 'm11', q: 'Round 367 to the nearest hundred:', options: ['300', '360', '370', '400'], answer: 3, exp: '367 — the tens digit is 6, which is ≥ 5, so round up to 400.' },
+      { id: 'm12', q: 'What is the area of a rectangle 5 cm long and 4 cm wide?', options: ['9 sq cm', '18 sq cm', '20 sq cm', '25 sq cm'], answer: 2, exp: 'Area = length × width = 5 × 4 = 20 sq cm.' },
+    ]
+  },
+  {
+    id: 'science',
+    label: 'Science',
+    icon: '🔬',
+    color: 'c-science',
+    badge: 'badge-science',
+    bar: 'bar-science',
+    questions: [
+      { id: 's1', q: 'Which of the following is a LIVING thing?', options: ['Rock', 'Water', 'Tree', 'Cloud'], answer: 2, exp: 'Trees are living things because they grow, reproduce, and respond to their environment.' },
+      { id: 's2', q: 'What do plants need to make their own food? (Photosynthesis)', options: ['Soil and worms', 'Sunlight, water, and air', 'Rain and darkness', 'Wind and rocks'], answer: 1, exp: 'Plants use sunlight, water, and carbon dioxide (air) for photosynthesis.' },
+      { id: 's3', q: 'Which phase comes AFTER liquid when something is heated?', options: ['Solid', 'Gas', 'Ice', 'Mixture'], answer: 1, exp: 'The three states of matter are solid → liquid → gas as heat is added.' },
+      { id: 's4', q: 'What is the center of our solar system?', options: ['Earth', 'Moon', 'Sun', 'Mars'], answer: 2, exp: 'The Sun is the star at the center of our solar system.' },
+      { id: 's5', q: 'Which animal is an INSECT?', options: ['Spider', 'Worm', 'Butterfly', 'Snail'], answer: 2, exp: 'Insects have 6 legs and 3 body parts. Butterflies are insects; spiders have 8 legs.' },
+      { id: 's6', q: 'What is the role of roots in a plant?', options: ['Make seeds', 'Absorb water and nutrients from soil', 'Catch sunlight', 'Produce flowers'], answer: 1, exp: 'Roots anchor the plant and absorb water and minerals from the soil.' },
+      { id: 's7', q: 'Which force pulls objects toward Earth?', options: ['Magnetism', 'Friction', 'Gravity', 'Wind'], answer: 2, exp: 'Gravity is the force that pulls everything toward Earth\'s center.' },
+      { id: 's8', q: 'An animal that eats ONLY plants is called:', options: ['Carnivore', 'Omnivore', 'Herbivore', 'Predator'], answer: 2, exp: 'Herbivores eat only plants. Carnivores eat meat; omnivores eat both.' },
+    ]
+  },
+  {
+    id: 'social',
+    label: 'Social Studies',
+    icon: '🌎',
+    color: 'c-social',
+    badge: 'badge-social',
+    bar: 'bar-social',
+    questions: [
+      { id: 'ss1', q: 'What do we call the leader of the United States?', options: ['King', 'Prime Minister', 'President', 'Governor'], answer: 2, exp: 'The United States is led by a President, elected by the people every four years.' },
+      { id: 'ss2', q: 'What is a MAP used for?', options: ['Telling weather', 'Showing places and directions', 'Counting animals', 'Reading stories'], answer: 1, exp: 'Maps show the layout of places and help us understand directions and geography.' },
+      { id: 'ss3', q: 'Which continent do we live on in the United States?', options: ['Asia', 'Africa', 'Europe', 'North America'], answer: 3, exp: 'The United States is located on the continent of North America.' },
+      { id: 'ss4', q: 'What does a CITIZEN have the right to do in a democracy?', options: ['Take other people\'s property', 'Vote in elections', 'Make all the laws alone', 'Ignore the rules'], answer: 1, exp: 'In a democracy, citizens have the right and responsibility to vote.' },
+      { id: 'ss5', q: 'Which of the following is a NATURAL resource?', options: ['Car', 'Plastic bottle', 'Fresh water', 'Computer'], answer: 2, exp: 'Natural resources come from nature. Fresh water is a natural resource.' },
+      { id: 'ss6', q: 'What was the main reason for the American Revolution?', options: ['To build more schools', 'Colonists wanted independence from Britain', 'To create a new religion', 'To trade with France'], answer: 1, exp: 'The American Revolution was fought so the colonists could be free from British rule.' },
+      { id: 'ss7', q: 'What do we call a place where people buy and sell goods?', options: ['Library', 'Market', 'Hospital', 'Museum'], answer: 1, exp: 'A market is a place where goods are bought and sold.' },
+      { id: 'ss8', q: 'Which of the following is an EXAMPLE of a government service?', options: ['A private pizza restaurant', 'Public fire department', 'A family farm', 'A toy store'], answer: 1, exp: 'Fire departments are government-funded services that protect all citizens.' },
+    ]
+  }
+];
+
+// Flatten all questions
+let allQuestions = [];
+sections.forEach(sec => {
+  sec.questions.forEach((q, i) => {
+    allQuestions.push({ ...q, sectionId: sec.id, sectionLabel: sec.label, sectionColor: sec.color, sectionIcon: sec.icon, passage: sec.passage, sectionBadge: sec.badge });
+  });
+});
+
+let currentSectionIdx = 0;
+let currentQInSection = 0;
+let userAnswers = {}; // id -> selected index
+let sectionQuestions = []; // list of questions for current section
+let currentQuestion = null;
+let currentQuestionGlobalIdx = 0;
+let totalAnswered = 0;
+let allFlat = []; // flattened with sectionGrouping
+let currentFlatIdx = 0;
+
+function startTest() {
+  // Build flat list of sections (one section at a time)
+  currentSectionIdx = 0;
+  currentQInSection = 0;
+  userAnswers = {};
+  totalAnswered = 0;
+  currentFlatIdx = 0;
+  showSection();
+}
+
+function showSection() {
+  if (currentSectionIdx >= sections.length) {
+    showResults();
+    return;
+  }
+  const sec = sections[currentSectionIdx];
+  sectionQuestions = sec.questions;
+  currentQInSection = 0;
+  showQuestion();
+}
+
+function countAnsweredSoFar() {
+  let count = 0;
+  for (let s = 0; s < currentSectionIdx; s++) {
+    count += sections[s].questions.length;
+  }
+  count += currentQInSection;
+  return count;
+}
+
+function getTotalQuestions() {
+  return sections.reduce((a,s) => a + s.questions.length, 0);
+}
+
+function showQuestion() {
+  const sec = sections[currentSectionIdx];
+  const q = sectionQuestions[currentQInSection];
+  const totalQ = getTotalQuestions();
+  const doneQ = countAnsweredSoFar();
+
+  // Switch to test screen
+  setScreen('test-screen');
+
+  // Update header
+  document.getElementById('section-badge').textContent = sec.icon + ' ' + sec.label;
+  document.getElementById('section-badge').className = 'section-badge ' + sec.badge;
+  document.getElementById('q-counter').textContent = `Q ${doneQ + 1} / ${totalQ}`;
+  document.getElementById('progress-fill').style.width = ((doneQ / totalQ) * 100) + '%';
+
+  // Build body
+  const body = document.getElementById('test-body');
+  let html = '';
+
+  // Section header (only for first question in section)
+  if (currentQInSection === 0) {
+    html += `<div class="section-header ${sec.color}">
+      <div class="icon">${sec.icon}</div>
+      <div>
+        <h2>${sec.label}</h2>
+        <p>${sectionQuestions.length} questions in this section</p>
+      </div>
+    </div>`;
+  }
+
+  // Passage if applicable
+  if (sec.passage && currentQInSection === 0) {
+    html += `<div class="passage-box">${sec.passage.replace(/\n/g,'<br>')}</div>`;
+  } else if (sec.passage && currentQInSection > 0) {
+    html += `<div class="passage-box" style="font-size:0.85rem; max-height:120px; overflow:auto;">${sec.passage.replace(/\n/g,'<br>')}</div>`;
+  }
+
+  // Question card
+  const selected = userAnswers[q.id] !== undefined ? userAnswers[q.id] : -1;
+  html += `<div class="question-card${selected >= 0 ? ' answered' : ''}" id="qcard">
+    <div class="q-num">Question ${doneQ + 1}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="options" id="options-container">`;
+  
+  const letters = ['A','B','C','D'];
+  q.options.forEach((opt, i) => {
+    let cls = '';
+    if (selected === i) cls = 'selected';
+    html += `<div class="option ${cls}" id="opt-${i}" onclick="selectOption(${i})">
+      <div class="option-letter">${letters[i]}</div>
+      ${opt}
+    </div>`;
+  });
+  
+  html += `</div></div>`;
+
+  // Nav buttons
+  const isLast = currentSectionIdx === sections.length - 1 && currentQInSection === sectionQuestions.length - 1;
+  const isFirstQ = currentSectionIdx === 0 && currentQInSection === 0;
+  
+  html += `<div class="nav-btns">
+    <button class="btn btn-secondary" onclick="prevQuestion()" ${isFirstQ ? 'disabled' : ''}>← Back</button>
+    <button class="btn ${isLast ? 'btn-success' : 'btn-primary'}" id="next-btn" onclick="nextQuestion()">
+      ${isLast ? '🏁 Finish Test' : 'Next →'}
+    </button>
+  </div>`;
+
+  body.innerHTML = html;
+}
+
+function selectOption(idx) {
+  const sec = sections[currentSectionIdx];
+  const q = sectionQuestions[currentQInSection];
+  userAnswers[q.id] = idx;
+  
+  // Update UI
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+    el.querySelector('.option-letter').style.background = i === idx ? 'var(--primary)' : '';
+    el.querySelector('.option-letter').style.color = i === idx ? 'white' : '';
+  });
+  document.getElementById('qcard').classList.add('answered');
+}
+
+function nextQuestion() {
+  const sec = sections[currentSectionIdx];
+  const q = sectionQuestions[currentQInSection];
+  
+  // Require selection
+  if (userAnswers[q.id] === undefined) {
+    const qcard = document.getElementById('qcard');
+    qcard.style.borderColor = 'var(--danger)';
+    qcard.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.2)';
+    setTimeout(() => {
+      qcard.style.borderColor = '';
+      qcard.style.boxShadow = '';
+    }, 1500);
+    return;
+  }
+
+  if (currentQInSection < sectionQuestions.length - 1) {
+    currentQInSection++;
+    showQuestion();
+  } else if (currentSectionIdx < sections.length - 1) {
+    currentSectionIdx++;
+    showSection();
+  } else {
+    showResults();
+  }
+}
+
+function prevQuestion() {
+  if (currentQInSection > 0) {
+    currentQInSection--;
+    showQuestion();
+  } else if (currentSectionIdx > 0) {
+    currentSectionIdx--;
+    currentQInSection = sections[currentSectionIdx].questions.length - 1;
+    showQuestion();
+  }
+}
+
+function showResults() {
+  setScreen('results-screen');
+
+  // Calculate scores
+  let totalCorrect = 0;
+  let totalQ = 0;
+  const sectionResults = {};
+
+  sections.forEach(sec => {
+    let secCorrect = 0;
+    sec.questions.forEach(q => {
+      totalQ++;
+      if (userAnswers[q.id] === q.answer) {
+        secCorrect++;
+        totalCorrect++;
+      }
+    });
+    sectionResults[sec.id] = { correct: secCorrect, total: sec.questions.length, pct: Math.round((secCorrect/sec.questions.length)*100) };
+  });
+
+  const pct = Math.round((totalCorrect / totalQ) * 100);
+
+  document.getElementById('score-pct').textContent = pct + '%';
+  
+  let emoji, grade, feedback;
+  if (pct >= 90) { emoji = '🏆 Outstanding!'; grade = 'Advanced - Excellent work!'; feedback = 'Wow! You aced this test! You are well above grade level.'; }
+  else if (pct >= 80) { emoji = '⭐ Great Job!'; grade = 'Proficient - Keep it up!'; feedback = 'Fantastic! You showed strong skills in most areas.'; }
+  else if (pct >= 70) { emoji = '👍 Good Work!'; grade = 'Basic - You\'re on track!'; feedback = 'Nice effort! Review the sections where you missed questions.'; }
+  else if (pct >= 60) { emoji = '📚 Keep Practicing'; grade = 'Below Basic - More practice needed'; feedback = 'Good try! Focus on the areas below and practice more.'; }
+  else { emoji = '💪 Try Again!'; grade = 'More Practice Needed'; feedback = 'Don\'t give up! Read the explanations and try again.'; }
+
+  document.getElementById('results-emoji').textContent = emoji;
+  document.getElementById('grade-msg').textContent = grade + ` — ${totalCorrect} / ${totalQ} correct`;
+  document.getElementById('feedback-msg').textContent = feedback;
+
+  let secHTML = '';
+  sections.forEach(sec => {
+    const r = sectionResults[sec.id];
+    secHTML += `<div class="section-score-item">
+      <div class="ss-label">${sec.icon} ${sec.label}</div>
+      <div class="ss-val">${r.correct}/${r.total} &nbsp;<small style="color:var(--muted);font-size:0.85rem;">${r.pct}%</small></div>
+      <div class="ss-bar"><div class="ss-bar-fill ${sec.bar}" style="width:${r.pct}%"></div></div>
+    </div>`;
+  });
+  document.getElementById('section-scores').innerHTML = secHTML;
+}
+
+function showReview() {
+  setScreen('review-screen');
+  let html = '';
+  const letters = ['A','B','C','D'];
+  
+  sections.forEach(sec => {
+    html += `<div class="section-header ${sec.color}" style="margin-bottom:1rem;">${sec.icon} ${sec.label}</div>`;
+    sec.questions.forEach((q, i) => {
+      const selected = userAnswers[q.id];
+      const isCorrect = selected === q.answer;
+      html += `<div class="review-q">
+        <div class="q-num">${sec.label} — Question ${i+1}</div>
+        <div class="q-text">${q.q}</div>
+        <div class="options">`;
+      q.options.forEach((opt, oi) => {
+        let cls = '';
+        if (oi === q.answer) cls = 'reveal-correct';
+        else if (oi === selected && !isCorrect) cls = 'wrong';
+        html += `<div class="option ${cls}">
+          <div class="option-letter" style="${oi===q.answer?'background:var(--success);color:white':oi===selected&&!isCorrect?'background:var(--danger);color:white':''}">${letters[oi]}</div>${opt}
+          ${oi===q.answer?' ✓':''}${oi===selected&&!isCorrect?' ✗':''}
+        </div>`;
+      });
+      html += `</div>
+        <div class="review-result ${isCorrect?'correct-r':'wrong-r'}">${isCorrect?'✓ Correct!':'✗ Incorrect — Correct answer: ' + letters[q.answer]}</div>
+        <div class="review-explanation">💡 ${q.exp}</div>
+      </div>`;
+    });
+  });
+  document.getElementById('review-body').innerHTML = html;
+}
+
+function showResults() {
+  setScreen('results-screen');
+  let totalCorrect = 0, totalQ = 0;
+  const sectionResults = {};
+  sections.forEach(sec => {
+    let secCorrect = 0;
+    sec.questions.forEach(q => { totalQ++; if (userAnswers[q.id] === q.answer) { secCorrect++; totalCorrect++; } });
+    sectionResults[sec.id] = { correct: secCorrect, total: sec.questions.length, pct: Math.round((secCorrect/sec.questions.length)*100) };
+  });
+  const pct = Math.round((totalCorrect / totalQ) * 100);
+  document.getElementById('score-pct').textContent = pct + '%';
+  let emoji, grade, feedback;
+  if (pct >= 90) { emoji = '🏆 Outstanding!'; grade = 'Advanced'; feedback = 'Wow! You are well above grade level. Amazing work!'; }
+  else if (pct >= 80) { emoji = '⭐ Great Job!'; grade = 'Proficient'; feedback = 'Fantastic! You showed strong skills across most areas.'; }
+  else if (pct >= 70) { emoji = '👍 Good Work!'; grade = 'Basic'; feedback = 'Nice effort! Review the sections you missed and keep going!'; }
+  else if (pct >= 60) { emoji = '📚 Keep Practicing!'; grade = 'Below Basic'; feedback = 'Good try! Focus on the review and practice more.'; }
+  else { emoji = '💪 Try Again!'; grade = 'Needs Support'; feedback = "Don't give up! Read the explanations and try again."; }
+  document.getElementById('results-emoji').textContent = emoji;
+  document.getElementById('grade-msg').textContent = `${grade} — ${totalCorrect} out of ${totalQ} correct`;
+  document.getElementById('feedback-msg').textContent = feedback;
+  let secHTML = '';
+  sections.forEach(sec => {
+    const r = sectionResults[sec.id];
+    secHTML += `<div class="section-score-item">
+      <div class="ss-label">${sec.icon} ${sec.label}</div>
+      <div class="ss-val">${r.correct}/${r.total} <small style="color:var(--muted)">${r.pct}%</small></div>
+      <div class="ss-bar"><div class="ss-bar-fill ${sec.bar}" style="width:${r.pct}%"></div></div>
+    </div>`;
+  });
+  document.getElementById('section-scores').innerHTML = secHTML;
+}
+
+function restartTest() {
+  userAnswers = {};
+  currentSectionIdx = 0;
+  currentQInSection = 0;
+  setScreen('start-screen');
+}
+
+function setScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Generate stars
+function makeStars() {
+  const sf = document.getElementById('stars');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 3 + 1;
+    s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*3}s`;
+    sf.appendChild(s);
+  }
+}
+makeStars();
+</script>
+</body>
+</html>
