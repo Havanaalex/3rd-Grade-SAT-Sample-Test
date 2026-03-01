@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 3 SAT 10 Practice — Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --student:  #2563eb;
+    --teacher:  #0f766e;
+    --principal:#4c1d95;
+    --bg: #f8faff;
+    --text: #0f172a;
+    --muted: #64748b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── floating shapes background ── */
+  .bg-shapes { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .shape {
+    position: absolute; border-radius: 50%;
+    opacity: 0.07; animation: drift 18s infinite alternate ease-in-out;
+  }
+  .s1 { width: 520px; height: 520px; background: #2563eb; top: -160px; left: -120px; animation-duration: 20s; }
+  .s2 { width: 380px; height: 380px; background: #0f766e; bottom: -80px; right: -80px; animation-duration: 25s; animation-delay: -7s; }
+  .s3 { width: 260px; height: 260px; background: #4c1d95; top: 40%; left: 55%; animation-duration: 22s; animation-delay: -3s; }
+  @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(30px, 40px) scale(1.05); } }
+
+  /* ── hero ── */
+  .hero {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 5rem 2rem 3rem;
+  }
+
+  .school-badge {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: white; border: 2px solid #e2e8f0;
+    border-radius: 999px; padding: 0.45rem 1.2rem;
+    font-size: 0.82rem; font-weight: 800; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 1rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero-title span {
+    background: linear-gradient(135deg, #2563eb, #4c1d95);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem; color: var(--muted); font-weight: 600;
+    max-width: 480px; margin: 0 auto 1rem;
+    line-height: 1.6;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .year-tag {
+    display: inline-block; background: #ffe4b5; color: #92400e;
+    padding: 0.3rem 1rem; border-radius: 999px;
+    font-size: 0.82rem; font-weight: 800;
+    margin-bottom: 3.5rem;
+    animation: fadeUp 0.6s 0.25s ease both;
+  }
+
+  /* ── cards grid ── */
+  .cards {
+    position: relative; z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 2rem 5rem;
+  }
+
+  .portal-card {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+    transition: transform 0.25s, box-shadow 0.25s;
+    animation: fadeUp 0.7s ease both;
+    text-decoration: none;
+    display: flex; flex-direction: column;
+    background: white;
+    border: 2px solid transparent;
+  }
+  .portal-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.15);
+  }
+  .portal-card:nth-child(1) { animation-delay: 0.3s; }
+  .portal-card:nth-child(2) { animation-delay: 0.45s; }
+  .portal-card:nth-child(3) { animation-delay: 0.6s; }
+
+  .card-top {
+    padding: 2.5rem 2rem 2rem;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 1rem;
+  }
+
+  .card-icon-wrap {
+    width: 72px; height: 72px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.4rem;
+  }
+
+  .card-label {
+    font-size: 0.72rem; font-weight: 900; text-transform: uppercase;
+    letter-spacing: 1.5px; padding: 0.25rem 0.8rem; border-radius: 999px;
+  }
+
+  .card-top h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.75rem; line-height: 1.15;
+    color: var(--text);
+  }
+
+  .card-top p {
+    font-size: 0.95rem; color: var(--muted); line-height: 1.6; font-weight: 600;
+  }
+
+  .card-features {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 0.5rem;
+    flex: 1;
+  }
+  .card-features li {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.9rem; font-weight: 700; color: #475569;
+  }
+  .card-features li::before { content: '✓'; font-weight: 900; font-size: 0.9rem; }
+
+  .card-footer {
+    padding: 1.25rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 2px solid #f1f5f9;
+  }
+
+  .card-pw {
+    font-size: 0.8rem; color: var(--muted); font-weight: 700;
+  }
+  .card-pw code {
+    background: #f1f5f9; color: var(--text); padding: 0.2rem 0.6rem;
+    border-radius: 6px; font-family: 'Courier New', monospace; font-size: 0.85rem;
+    font-weight: 800;
+  }
+
+  .card-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.65rem 1.4rem; border-radius: 999px;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.95rem;
+    color: white; transition: opacity 0.2s; white-space: nowrap;
+  }
+  .card-btn:hover { opacity: 0.85; }
+
+  /* student theme */
+  .card-student .card-icon-wrap { background: #dbeafe; }
+  .card-student .card-label    { background: #dbeafe; color: #1e40af; }
+  .card-student .card-features li::before { color: var(--student); }
+  .card-student .card-btn      { background: var(--student); }
+  .card-student:hover          { border-color: #93c5fd; }
+
+  /* teacher theme */
+  .card-teacher .card-icon-wrap { background: #ccfbf1; }
+  .card-teacher .card-label    { background: #ccfbf1; color: #0f766e; }
+  .card-teacher .card-features li::before { color: var(--teacher); }
+  .card-teacher .card-btn      { background: var(--teacher); }
+  .card-teacher:hover          { border-color: #5eead4; }
+
+  /* principal theme */
+  .card-principal .card-icon-wrap { background: #ede9fe; }
+  .card-principal .card-label    { background: #ede9fe; color: #4c1d95; }
+  .card-principal .card-features li::before { color: var(--principal); }
+  .card-principal .card-btn      { background: var(--principal); }
+  .card-principal:hover          { border-color: #c4b5fd; }
+
+  /* ── footer ── */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center; padding: 2rem;
+    border-top: 2px solid #e2e8f0;
+    color: var(--muted); font-size: 0.85rem; font-weight: 600;
+  }
+  footer a { color: var(--student); text-decoration: none; font-weight: 800; }
+
+  /* ── instructions section ── */
+  .instructions {
+    position: relative; z-index: 1;
+    max-width: 760px; margin: 0 auto;
+    padding: 0 2rem 3rem;
+  }
+  .instructions h3 {
+    font-family: 'Fredoka One', cursive; font-size: 1.5rem;
+    color: var(--text); margin-bottom: 1.5rem; text-align: center;
+  }
+  .steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;
+  }
+  .step {
+    background: white; border-radius: 16px; padding: 1.25rem 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 2px solid #e2e8f0;
+    animation: fadeUp 0.6s ease both;
+  }
+  .step:nth-child(1){animation-delay:0.7s} .step:nth-child(2){animation-delay:0.8s}
+  .step:nth-child(3){animation-delay:0.9s} .step:nth-child(4){animation-delay:1.0s}
+  .step-num {
+    font-family: 'Fredoka One', cursive; font-size: 1.8rem;
+    background: linear-gradient(135deg, #2563eb, #4c1d95);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+  .step h4 { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.3rem; }
+  .step p  { font-size: 0.85rem; color: var(--muted); font-weight: 600; line-height: 1.5; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding: 3.5rem 1.5rem 2rem; }
+    .cards { padding: 0 1rem 4rem; }
+    .card-footer { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+  <div class="shape s1"></div>
+  <div class="shape s2"></div>
+  <div class="shape s3"></div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="school-badge">🎓 Elementary School</div>
+  <h1 class="hero-title">Grade 3<br><span>SAT 10 Practice</span></h1>
+  <p class="hero-sub">A complete testing platform for students, teachers, and school leadership.</p>
+  <div class="year-tag">📅 School Year 2025–2026</div>
+</div>
+
+<!-- PORTAL CARDS -->
+<div class="cards">
+
+  <!-- Student -->
+  <a href="sat10-grade3-practice-test.html" class="portal-card card-student">
+    <div class="card-top">
+      <div style="display:flex;align-items:center;gap:0.85rem;">
+        <div class="card-icon-wrap">🎒</div>
+        <span class="card-label">Students</span>
+      </div>
+      <h2>Practice Test</h2>
+      <p>Take the full SAT 10 practice exam across all 6 subject areas with instant scoring.</p>
+      <ul class="card-features">
+        <li>48 questions across all subjects</li>
+        <li>Reading, Math, Science & more</li>
+        <li>Instant score &amp; answer review</li>
+        <li>No login required</li>
+      </ul>
+    </div>
+    <div class="card-footer">
+      <div class="card-pw"><code>No password needed</code></div>
+      <div class="card-btn">Open Test →</div>
+    </div>
+  </a>
+
+  <!-- Teacher -->
+  <a href="teacher-portal.html" class="portal-card card-teacher">
+    <div class="card-top">
+      <div style="display:flex;align-items:center;gap:0.85rem;">
+        <div class="card-icon-wrap">🍎</div>
+        <span class="card-label">Teachers</span>
+      </div>
+      <h2>Teacher Portal</h2>
+      <p>Manage your class roster, enter scores, view the answer key, and track performance.</p>
+      <ul class="card-features">
+        <li>Full answer key + explanations</li>
+        <li>Class roster &amp; grade entry</li>
+        <li>Section performance overview</li>
+        <li>Standards alignment guide</li>
+      </ul>
+    </div>
+    <div class="card-footer">
+      <div class="card-pw">Password: <code>teacher123</code></div>
+      <div class="card-btn">Sign In →</div>
+    </div>
+  </a>
+
+  <!-- Principal -->
+  <a href="principal-dashboard.html" class="portal-card card-principal">
+    <div class="card-top">
+      <div style="display:flex;align-items:center;gap:0.85rem;">
+        <div class="card-icon-wrap">🏫</div>
+        <span class="card-label">Administration</span>
+      </div>
+      <h2>Principal Dashboard</h2>
+      <p>School-wide analytics, classroom comparisons, at-risk alerts, and student lookup.</p>
+      <ul class="card-features">
+        <li>School-wide performance data</li>
+        <li>Classroom-by-classroom comparison</li>
+        <li>At-risk student alerts</li>
+        <li>Individual student lookup</li>
+      </ul>
+    </div>
+    <div class="card-footer">
+      <div class="card-pw">Password: <code>principal456</code></div>
+      <div class="card-btn">Sign In →</div>
+    </div>
+  </a>
+
+</div>
+
+<!-- GITHUB SETUP INSTRUCTIONS -->
+<div class="instructions">
+  <h3>🚀 How to Go Live on GitHub Pages</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4>Create a Repo</h4>
+      <p>Go to github.com, click <strong>New Repository</strong>, name it something like <code>sat10-grade3</code>, and set it to Public.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4>Upload All 4 Files</h4>
+      <p>Click <strong>Add file → Upload files</strong> and drag in all four HTML files. Make sure this file is named <code>index.html</code>.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4>Enable Pages</h4>
+      <p>Go to <strong>Settings → Pages</strong>, set Source to <strong>main branch / root</strong>, and click Save.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h4>Share the Link!</h4>
+      <p>GitHub gives you a URL like <code>yourname.github.io/sat10-grade3</code>. Share it with your school!</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Grade 3 SAT 10 Practice Platform &nbsp;·&nbsp; Built for classroom use &nbsp;·&nbsp;
+  <a href="https://github.com" target="_blank">Deploy on GitHub Pages</a>
+</footer>
+
+</body>
+</html>
